@@ -7,6 +7,7 @@ export function uploadArtifact(s0) {
   const rootDirectory = `.`;
   const options = {
     continueOnError: false,
+    overwrite: true,
   };
   artifactClient.uploadArtifact(artifactName, files, rootDirectory, options);
 }
