@@ -1,5 +1,8 @@
 import { getInput, setFailed, setOutput } from "@actions/core";
-import { getMasterBranchSize, getRNBundleMasterSize } from "./evaluator/evaluator";
+import {
+  getMasterBranchSize,
+  getRNBundleMasterSize,
+} from "./evaluator/evaluator";
 import { uploadArtifact } from "./network";
 import { getBuildPath, writeMetricsToFile } from "./utils/utils";
 
@@ -7,24 +10,26 @@ try {
   const flavorToBuild = getInput("flavor");
   const isRN = getInput("is-react-native");
   const bp = getBuildPath(flavorToBuild);
-  const bundleCommand = getInput("bundle-command")
-  const bundlePath = "android/infra/react/src/main/assets/"
+  const bundleCommand = getInput("bundle-command");
+  const bundlePath = "android/infra/react/src/main/assets/";
   const wdir = getInput("workingDir");
-  console.log("working dir :: ", wdir)
+  console.log("working dir :: ", wdir);
   console.log(`Building flavor:  ${flavorToBuild}!`);
-  const apkSize = getMasterBranchSize(wdir,flavorToBuild, bp, isRN);
-  console.log("APK size", apkSize)
-  const bundleSize = getRNBundleMasterSize(bundleCommand, bundlePath)
-  console.log("Bundle Size", bundleSize)
+  const apkSize = getMasterBranchSize(wdir, flavorToBuild, bp, isRN);
+  console.log("APK size", apkSize);
+  const bundleSize = getRNBundleMasterSize(bundleCommand, bundlePath);
+  console.log("Bundle Size", bundleSize);
   await writeMetricsToFile(apkSize, bundleSize);
+  console.log("Metrics written to file");
+  console.log("Uploading artifact...");
   uploadArtifact();
 
   const size = {
     apk: apkSize,
-    bundle: bundleSize
-  }
+    bundle: bundleSize,
+  };
 
-  setOutput('size', size);
+  setOutput("size", size);
 } catch (error) {
   setFailed(error.message);
 }
