@@ -104431,10 +104431,10 @@ async function uploadArtifact(s0) {
   artifactClient
     .deleteArtifact("artifactName")
     .then((id, size) => {
-      console.log("Artifact deleted:", id, size);
+      console.log("Artifact deleted::::", id, size);
     })
     .catch((error) => {
-      console.log("No existing artifact found", error);
+      console.log("No existing artifact found::::", error);
     })
     .finally(async () => {
       // 🔹 Upload artifact
@@ -104442,10 +104442,10 @@ async function uploadArtifact(s0) {
       artifactClient
         .uploadArtifact(artifactName, files, rootDirectory)
         .then(async (id, size) => {
-          console.log("Artifact uploaded:", id, size);
+          console.log("Artifact uploaded::::", id, size);
         })
         .catch(async (error) => {
-          console.log("Error uploading artifact:", error);
+          console.log("Error uploading artifact::::", error);
         });
     });
 }
