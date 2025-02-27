@@ -1,7 +1,7 @@
-const artifact = require("@actions/artifact");
+const { DefaultArtifactClient } = require("@actions/artifact");
 
 export async function uploadArtifact(s0) {
-  const artifactClient = artifact.create();
+  const artifactClient = new DefaultArtifactClient();
   const artifactName = "metric-artifact-new";
   const files = ["metric.json"];
   const rootDirectory = ".";
