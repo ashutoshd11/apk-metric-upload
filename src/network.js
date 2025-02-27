@@ -1,14 +1,23 @@
-const { DefaultArtifactClient } = require("@actions/artifact");
+const artifact = require("@actions/artifact");
 
-export function uploadArtifact(s0) {
-  const artifact = new DefaultArtifactClient();
+export async function uploadArtifact(s0) {
+  const artifactClient = artifact.create();
   const artifactName = "metric-artifact-new";
-  const files = [`metric.json`];
-  const rootDirectory = `.`;
-  const options = {
-    continueOnError: false,
-    overwrite: true,
-  };
+  const files = ["metric.json"];
+  const rootDirectory = ".";
 
-  artifactClient.uploadArtifact(artifactName, files, rootDirectory, options);
+  try {
+    // 🔹 Delete existing artifact (GitHub now requires this)
+    await artifactClient.deleteArtifact(artifactName);
+
+    // 🔹 Upload the new artifact
+    const response = await artifactClient.uploadArtifact(
+      artifactName,
+      files,
+      rootDirectory
+    );
+    console.log("Artifact uploaded:", response);
+  } catch (error) {
+    console.error("Error uploading artifact:", error);
+  }
 }
