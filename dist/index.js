@@ -104446,6 +104446,7 @@ async function uploadArtifact(s0) {
         })
         .catch(async (error) => {
           console.log("Error uploading artifact::::", error);
+          process.exit(1);
         });
     });
 }
